@@ -47,7 +47,6 @@ Installation
    pip install occulations_detector
 
 
-L
 
 
 
