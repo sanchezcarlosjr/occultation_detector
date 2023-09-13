@@ -74,7 +74,7 @@ class Simulator:
                 print(f"{index*100/n:.2f}%    ", end="\r")
                 try:
                     result = future.result()
-                    np.save(f'results/taosii_circle_simulation_diffraction_profile_{self.obs_params.mV}_{self.obs_params.nEst}_{i}.npy', np.array(result[-1]))
+                    np.save(f'results/taosii_circle_simulation_diffraction_profile/{self.obs_params.mV}_{self.obs_params.nEst}_{i}.npy', np.array(result[-1]))
                     pairs.append(result[0:-1])
                 except Exception as exc:
                     print('%r generated an exception: %s' % (i, exc))

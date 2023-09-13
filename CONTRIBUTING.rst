@@ -117,7 +117,7 @@ Clone the repository
    page. This creates a copy of the code under your account on |the repository service|.
 #. Clone this copy to your local disk::
 
-    git clone git@github.com:YourLogin/occultation_detector.git
+    git clone git@github.com:sanchezcarlosjr/occultation_detector.git
     cd occultation_detector
 
 #. You should run::
