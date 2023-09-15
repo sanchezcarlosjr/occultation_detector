@@ -37,6 +37,7 @@ Installation from GitHub
 Manual Installation
 ===============
 .. code-block:: bash
+
    git clone git@github.com:sanchezcarlosjr/occultation_detector.git
    pip install -e .
 
