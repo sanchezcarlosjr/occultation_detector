@@ -33,6 +33,13 @@ Installation from GitHub
    pip install git+git@github.com:sanchezcarlosjr/occultation_detector.git
 
 
+CLI predict
+===============
+.. code-block:: bash
+
+   taosod -p examples/lightcurve.csv
+
+
 .. _pyscaffold-notes:
 
 Note

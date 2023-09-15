@@ -1,8 +1,11 @@
 import argparse
 import logging
 import sys
+import os
 
 from occultation_detector import __version__
+from occultation_detector.server import launch_web_server
+import pandas as pd
 
 __author__ = "sanchezcarlosjr"
 __copyright__ = "sanchezcarlosjr"
@@ -11,18 +14,25 @@ __license__ = "MIT"
 _logger = logging.getLogger(__name__)
 
 
-# ---- Python API ----
-# The functions defined in this section can be imported by users in their
-# Python scripts/interactive interpreter, e.g. via
-# `from occultation_detector.cli import fib`,
-# when using this Python module as a library.
-
-
 # ---- CLI ----
 # The functions defined in this section are wrappers around the main Python
 # API allowing them to be called directly from the terminal as a CLI
 # executable/script.
 
+
+class WebSimulatorAction(argparse.Action):
+    def __call__(self, parser, namespace, value, option_string=None):
+        _logger.debug("Starting...")
+        launch_web_server()
+        _logger.debug("Server is up")
+
+class PredictorAction(argparse.Action):
+    def __call__(self, parser, namespace, files, option_string=None):
+        _logger.debug("Starting...")
+        df = pd.read_csv(files[0])
+        predict = pipeline()
+        print(predict([pd.read_csv(file) for file in files]))
+        _logger.debug("Prediction has been done")
 
 def parse_args(args):
     """Parse command line parameters
@@ -39,6 +49,28 @@ def parse_args(args):
         "--version",
         action="version",
         version=f"occultation_detector {__version__}",
+    )
+    parser.add_argument(
+       '-p', 
+       '--predict', 
+       nargs=1,
+       type=argparse.FileType('r'),
+       default=sys.stdin,
+       action=PredictorAction,
+       help='predict the features of a Trans-Neptunian Object (TNO) using a CSV file containing light curve data, which includes timestamps and corresponding intensity values.',
+    )
+    parser.add_argument(
+       '-pl', 
+       '--plot', 
+       help='plot the light curve data using a CSV file, which includes timestamps and corresponding intensity values.'
+    )
+    parser.add_argument(
+        "-s",
+        "--server",
+        dest="server", 
+        help="Launch web simulator", 
+        type=str, 
+        action=WebSimulatorAction
     )
     parser.add_argument(
         "-v",
@@ -84,8 +116,7 @@ def main(args):
     args = parse_args(args)
     setup_logging(args.loglevel)
     _logger.debug("Starting crazy calculations...")
-    print(f"Operations")
-    _logger.info("Script ends here")
+    _logger.debug("Script ends here")
 
 
 def run():

@@ -1,7 +1,7 @@
 import itertools
 import pandas as pd
 from collections import OrderedDict
-from occulations_detector.difraciones import *
+from occultation_detector.difraciones import *
 import numpy as np
 from dataclasses import dataclass
 import concurrent.futures
