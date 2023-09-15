@@ -47,6 +47,12 @@ CLI predict
 
    taosod -p examples/taosii_circle_simulation_diffraction_profile_9.npy
 
+Use the Occultation detector lib with Python
+================
+
+`Getting started <./notebooks/getting-started.ipynb>`_
+
+
 
 .. _pyscaffold-notes:
 
