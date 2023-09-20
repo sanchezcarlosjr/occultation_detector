@@ -1,7 +1,7 @@
 import itertools
 import pandas as pd
 from collections import OrderedDict
-from occultation_detector.difraciones import *
+from occultation_detector.difractions import *
 import numpy as np
 from dataclasses import dataclass
 from occultation_detector.prediction import ObservationParameters

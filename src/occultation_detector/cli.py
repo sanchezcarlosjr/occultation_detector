@@ -7,6 +7,7 @@ from occultation_detector import __version__
 from occultation_detector.server import launch_web_server
 from occultation_detector.pipeline import NpyFileLoader, pipeline
 import json
+import dataclasses
 import pandas as pd
 
 __author__ = "sanchezcarlosjr"
@@ -32,8 +33,9 @@ class PredictorAction(argparse.Action):
     def __call__(self, parser, namespace, files, option_string=None):
         _logger.debug("Starting...")
         predict = pipeline('checkpoints/vanilla-neuronal-network.keras')
-        ds = NpyFileLoader(*files)
-        print(json.dumps(predict(ds)), sort_keys=True, indent=4)
+        ds = NpyFileLoader(files[0].name)
+        result = predict(ds)
+        print(result)
         _logger.debug("Prediction has been done")
 
 def parse_args(args):
