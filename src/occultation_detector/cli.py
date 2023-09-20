@@ -73,6 +73,7 @@ def parse_args(args):
         "--server",
         dest="server", 
         help="Launch web simulator", 
+        nargs='?',
         type=str, 
         action=WebSimulatorAction
     )
