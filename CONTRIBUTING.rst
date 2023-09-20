@@ -45,15 +45,9 @@ by adding missing information and correcting mistakes.
 
 ``occultation_detector`` documentation uses Sphinx_ as its main documentation compiler.
 This means that the docs are kept in the same repository as the project code, and
-that any documentation update is done in the same way was a code contribution.
+that any documentation update is done in the same way was a code contribution. We write with reStructuredText_ extensions.
 
-.. todo:: Don't forget to mention which markup language you are using.
 
-    e.g.,  reStructuredText_ or CommonMark_ with MyST_ extensions.
-
-.. todo:: If your project is hosted on GitHub, you can also mention the following tip:
-
-   .. tip::
       Please notice that the `GitHub web interface`_ provides a quick way of
       propose changes in ``occultation_detector``'s files. While this mechanism can
       be tricky for normal code contributions, it works perfectly fine for
@@ -81,7 +75,7 @@ and use Python's built-in web server for a preview in your web browser
 Code Contributions
 ==================
 
-.. todo:: Please include a reference or explanation about the internals of the project.
+.. todo:: Include a reference or explanation about the internals of the project.
 
    An architecture description, design principles or at least a summary of the
    main concepts will make it easy for potential contributors to get started
@@ -245,9 +239,6 @@ Maintainer tasks
 
 Releases
 --------
-
-.. todo:: This section assumes you are using PyPI to publicly release your package.
-
    If instead you are using a different/private package index, please update
    the instructions accordingly.
 
