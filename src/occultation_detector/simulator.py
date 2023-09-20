@@ -4,44 +4,27 @@ from collections import OrderedDict
 from occultation_detector.difraciones import *
 import numpy as np
 from dataclasses import dataclass
+from occultation_detector.prediction import ObservationParameters
 import concurrent.futures
 import os
 
-@dataclass
-class SimulationParameters:
-    M: int = 2**11  # Size of the grid in [px] 2048
-    lamb: float = 600e-9  # Wavelength in [m]
 
-@dataclass
-class ObservationParameters:
-    vE: int = 29800  # Earth's translational velocity in m/s
-    vr: int = 5000  # Body velocity. Positive if it goes against the Earth's direction
-    ang: int = 30  # Angle from opposition to calculate tangential velocity of the object
-    fps: int = 20  # Frames per second
-    mV: int = 15  # Apparent magnitude of the star
-    nEst: int = 1  # Selection of spectral type of star
-    nLamb: int = 10  # Number of wavelengths to consider for the spectral calculation
-
-    @property
-    def snr(self):
-        return SNR_TAOS2(self.mV)
 
 @dataclass
 class Simulator:
-    sim_params: SimulationParameters
-    obs_params: ObservationParameters
+    obs_params: ObservationParameters = ObservationParameters()
     def simulate_circle_lightcurve(self, d, ua, toffset, T, b):
         b = d * b
-        D = calc_plano(d, self.sim_params.lamb, ua)
-        O1 = pupilCO(self.sim_params.M, D, d)
+        D = calc_plano(d, self.obs_params.lamb, ua)
+        O1 = pupilCO(self.obs_params.M, D, d)
         z = 1.496e11 * ua
-        I1s = spectra(O1, self.sim_params.M, D, z, self.obs_params.nEst, self.obs_params.nLamb)
+        I1s = spectra(O1, self.obs_params.M, D, z, self.obs_params.nEst, self.obs_params.nLamb)
         tipo, R_star = calc_rstar(self.obs_params.mV, self.obs_params.nEst, ua)
-        I1f = promedio_PD(I1s, R_star, D, self.sim_params.M, d)
-        _, yc = extraer_perfil(I1f, self.sim_params.M, D, T, b)
+        I1f = promedio_PD(I1s, R_star, D, self.obs_params.M, d)
+        _, yc = extraer_perfil(I1f, self.obs_params.M, D, T, b)
         _, _, x2, y2 = muestreos(yc, D, self.obs_params.vr, self.obs_params.fps, toff=toffset, vE=self.obs_params.vE, opangle=0, ua=ua)
         
-        return (OrderedDict({
+        return (OrderedDcaict({
             "D": D,
             "z": z,
             "R_star": R_star,

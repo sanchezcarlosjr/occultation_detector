@@ -3,6 +3,9 @@
 
 import numpy as np
 import pandas as pd
+import os
+
+libdir = os.path.dirname(__file__)
 
 
 def cart2pol(x, y):
@@ -160,11 +163,11 @@ def spectra(U0,M,plano,z,nEst,nLmdas):
 G0=15;G1=16;G2=17;G5=18;G8=19;K0=20;K1=21;K2=22;K3=23;K4=24;K5=25;K7=26;
 M0=27;M1=28;M2=29;M3=30;M4=31;M5=32;M6=33;M7=34;M8=35 '''
     
-    fil=open('listadat.txt','r')#Abrir archivo de referencia para saber que estrella se eligió
+    fil=open(os.path.join(libdir, 'listadat.txt'),'r')#Abrir archivo de referencia para saber que estrella se eligió
     lista=fil.readlines()
     fil.close()
     #Direccion del archivo de datos de la convolucion FILTRO,ESTRELLA
-    darch="spectra/"+lista[nEst-1][:-1]
+    darch=os.path.join(libdir, "spectra/"+lista[nEst-1][:-1])
     dat=pd.read_csv(darch,sep=',',header=None)#datos en formato panda
     dat1=np.array(dat)#datos en formato numpy
     a,b=dat1.shape
@@ -197,7 +200,7 @@ def calc_rstar(mV,nEst,ua):
 %     13.9 14.4]; 
 OUT--> tipo, R_star: tipo espectral elegido y radio de estrella calculado respectivamente'''
     ua=1.496e11*ua #distancia en metros
-    stars=pd.read_csv('estrellas.dat',sep='\t',header=None)
+    stars=pd.read_csv(os.path.join(libdir,'estrellas.dat'),sep='\t',header=None)
     #PARAMETROS
     Tsol=5780 #Temperatura del SOl en grados Kelvin
     Rsol=6.96e8 #Radio del sol en mts

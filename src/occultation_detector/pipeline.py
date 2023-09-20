@@ -3,6 +3,7 @@ import glob
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from occultation_detector.prediction import Prediction
 
 class WrongInput(Exception):
     def __init__(self, message="The model needs 92 timestamps to work"):
@@ -49,7 +50,7 @@ class CSVFrameLoader(Dataset):
 
 def transform(response):
     keys = ['diameter', 'ua', 'toffset', 'T', 'b', 'D', 'z', 'R_star', 'type']
-    return [dict(zip(keys, output)) for output in response]
+    return [Prediction(**dict(zip(keys, output))) for output in response]
 
 def pipeline(model_path="checkpoints/vanilla-neuronal-network.keras"):
     model = Model(model_path)
