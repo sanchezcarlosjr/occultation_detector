@@ -32,18 +32,16 @@ class Simulator:
         )
 
     def run(self):
-        set_diameters = np.linspace(1000, 10000, 1000)
-        set_ua = np.linspace(40, 60, 1000)
+        set_diameters = np.linspace(1000, 10000, 10000)
+        set_ua = np.linspace(40, 60, 10000)
         set_toffset = [0]
         set_T = [0]
-        set_b_impact_parameter = np.linspace(0, 3, 1)
+        set_b_impact_parameter = np.linspace(0, 3, 42)
         features = itertools.product(set_diameters, set_ua, set_toffset, set_T, set_b_impact_parameter)
-        with joblib_progress("Simulating...", total=len(set_diameters)*len(set_ua)*len(set_b_impact_parameter)):
-            timeseries = []
-            labels = []
-            for result in Parallel(n_jobs=-1, return_as='generator')(delayed(self.simulate_circle_lightcurve)(*instance) for instance in features):
-                timeseries.append(result[0])
-                labels.append(result[1])
-
+        timeseries = []
+        labels = []
+        for result in Parallel(n_jobs=-1, verbose=1, return_as='generator')(delayed(self.simulate_circle_lightcurve)(*instance) for instance in features):
+            timeseries.append(result[0])
+            labels.append(result[1])
         filename = os.path.join(os.getcwd(), 'taosii_circle_simulation_diffraction_profile.joblib')
         dump([np.array(timeseries), np.array(labels)], filename)
