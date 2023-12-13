@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from collections import OrderedDict
 from occultation_detector.difractions import *
 from occultation_detector.plotter import plot
@@ -9,8 +9,8 @@ class ObservationParameters:
     vr: int = 5000  # Body velocity. Positive if it goes against the Earth's direction
     ang: int = 30  # Angle from opposition to calculate tangential velocity of the object
     fps: int = 20  # Frames per second
-    mV: int = 15  # Apparent magnitude of the star
-    nEst: int = 1  # Selection of spectral type of star
+    mV: int = 12  # Apparent magnitude of the star
+    nEst: int = 30  # Selection of spectral type of star
     nLamb: int = 10  # Number of wavelengths to consider for the spectral calculation
     M: int = 2**11  # Size of the grid in [px] 2048
     lamb: float = 600e-9  # Wavelength in [m]
@@ -27,12 +27,8 @@ class Prediction:
     toffset: float
     T: float
     b: float
-    D: float  # TODO: remove of the model
-    z: float # TODO: remove of the model
-    R_star: float # TODO: remove of the model
-    type: float  # TODO: remove of the model
-    observation_parameters: ObservationParameters = ObservationParameters()
-    
+    observation_parameters: ObservationParameters =  field(default_factory=ObservationParameters())    
+
     def plot(self):
         response, series = self.find_key_features()
         plot(self.diameter, self.ua, self.toffset, self.T, self.b, series, response, self.observation_parameters.nLamb, self.observation_parameters.mV, self.observation_parameters.snr)

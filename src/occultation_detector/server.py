@@ -76,6 +76,7 @@ def launch_web_server():
         """)
         with gr.Row():
             with gr.Column(scale=1, min_width=600):
+                t = gr.TNOShape()
                 d_input = gr.Number(label="Diámetro del objeto en [m]", value=3000)
                 ua_input = gr.Number(label="Distancia del objeto en unidades astronómicas", value=45)
                 lamb_input = gr.Number(label="Wavelength", value=0)
