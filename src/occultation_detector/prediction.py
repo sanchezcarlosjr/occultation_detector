@@ -24,14 +24,13 @@ class ObservationParameters:
 class Prediction:
     diameter: float
     ua: float
-    toffset: float
-    T: float
     b: float
-    D: float  # TODO: remove of the model
-    z: float # TODO: remove of the model
-    R_star: float # TODO: remove of the model
-    type: float  # TODO: remove of the model
+    toffset: float = 0 # TODO: remove of the model
     observation_parameters: ObservationParameters = ObservationParameters()
+    def __init__(self, diameter, ua, b):
+        self.diameter = diameter
+        self.ua = ua
+        self.b = b
     
     def plot(self):
         response, series = self.find_key_features()

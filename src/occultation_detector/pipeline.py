@@ -51,7 +51,7 @@ class CSVFrameLoader(Dataset):
         return DataFrameLoader(*[pd.read_csv(file) for file in self.files]).load()
 
 def transform(response):
-    keys = ['diameter', 'ua', 'toffset', 'T', 'b', 'D', 'z', 'R_star', 'type']
+    keys = ['diameter', 'ua', 'T']
     return [Prediction(**dict(zip(keys, output))) for output in response]
 
 def pipeline(model_path="checkpoints/vanilla-neuronal-network.keras"):

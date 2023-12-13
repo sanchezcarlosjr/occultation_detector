@@ -39,13 +39,13 @@ class Simulator:
         return [*ordered_pair, *list(response.values()), np.vstack((series['x2'],series['y2']))]
 
     def run(self):
-        set_diameters = np.linspace(1000, 10000, 20)
-        set_ua = np.linspace(40, 60, 5)
+        set_diameters = np.linspace(500, 10000, 1000)
+        set_ua = np.linspace(30, 60, 1000)
         set_toffset = [0]
         set_T = [0]
-        set_b_impact_parameter = np.linspace(0, 3, 41)
-        n = 20 * 5 * 41
-
+        set_b_impact_parameter = np.linspace(0, 3, 50)
+        n = 10000 * 10000 * 50
+        dataset = 'datasets/no_noise_circle_diameter500-10000_distance30-60_b0-3'
         with concurrent.futures.ThreadPoolExecutor(max_workers=os.cpu_count() - 2) as executor:
             print("Starting")
             future_to_value = {executor.submit(self.f, ordered_pair): i for i, ordered_pair in enumerate(itertools.product(set_diameters, set_ua, set_toffset, set_T, set_b_impact_parameter))}
@@ -57,11 +57,11 @@ class Simulator:
                 print(f"{index*100/n:.2f}%    ", end="\r")
                 try:
                     result = future.result()
-                    np.save(f'results/taosii_circle_simulation_diffraction_profile/{self.obs_params.mV}_{self.obs_params.nEst}_{i}.npy', np.array(result[-1]))
+                    np.save(f'{dataset}/lightcurve_{i}.npy', np.array(result[-1]))
                     pairs.append(result[0:-1])
                 except Exception as exc:
                     print('%r generated an exception: %s' % (i, exc))
         
-        pd.DataFrame(pairs, columns=['diameter', 'ua', 'toffset','T', 'b', "D", "z","R_star","tipo"]).to_csv('results/taosii_circle_simulation_features.csv')
+        pd.DataFrame(pairs, columns=['diameter', 'ua', 'toffset','T', 'b', "D", "z","R_star","tipo"]).to_csv(f'{dataset}/occultation_features.csv')
 
 

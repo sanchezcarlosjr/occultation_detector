@@ -55,3 +55,6 @@ MANIFEST
 .python-version
 
 datasets
+wandb/
+
+nohup.out
