@@ -56,3 +56,5 @@ MANIFEST
 
 datasets
 *.joblib
+wandb/
+nohup.out

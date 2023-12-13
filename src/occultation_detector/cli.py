@@ -6,9 +6,7 @@ import os
 from occultation_detector import __version__
 from occultation_detector.server import launch_web_server
 from occultation_detector.pipeline import NpyFileLoader, pipeline
-import json
-import dataclasses
-import pandas as pd
+from occultation_detector.simulator import Simulator
 
 __author__ = "sanchezcarlosjr"
 __copyright__ = "sanchezcarlosjr"
@@ -29,6 +27,7 @@ class WebSimulatorAction(argparse.Action):
         launch_web_server()
         _logger.debug("Server is up")
 
+
 class PredictorAction(argparse.Action):
     def __call__(self, parser, namespace, files, option_string=None):
         _logger.debug("Starting...")
@@ -37,6 +36,13 @@ class PredictorAction(argparse.Action):
         result = predict(ds)
         print(result)
         _logger.debug("Prediction has been done")
+
+
+class SimulatorAction(argparse.Action):
+    def __call__(self, parser, namespace, files, option_string=None):
+        s = Simulator()
+        s.run()
+
 
 def parse_args(args):
     """Parse command line parameters
@@ -55,26 +61,32 @@ def parse_args(args):
         version=f"occultation_detector {__version__}",
     )
     parser.add_argument(
-       '-p', 
-       '--predict', 
-       nargs=1,
-       type=argparse.FileType('r'),
-       default=sys.stdin,
-       action=PredictorAction,
-       help='predict the features of a Trans-Neptunian Object (TNO) using a CSV file containing light curve data, which includes timestamps and corresponding intensity values.',
+        '-p',
+        '--predict',
+        nargs=1,
+        type=argparse.FileType('r'),
+        default=sys.stdin,
+        action=PredictorAction,
+        help='predict the features of a Trans-Neptunian Object (TNO) using a CSV file containing light curve data, '
+             'which includes timestamps and corresponding intensity values.',
     )
     parser.add_argument(
-       '-pl', 
-       '--plot', 
-       help='plot the light curve data using a CSV file, which includes timestamps and corresponding intensity values.'
+        '--simulate',
+        nargs=0,
+        action=SimulatorAction
+    )
+    parser.add_argument(
+        '-pl',
+        '--plot',
+        help='plot the light curve data using a CSV file, which includes timestamps and corresponding intensity values.'
     )
     parser.add_argument(
         "-s",
         "--server",
-        dest="server", 
-        help="Launch web simulator", 
+        dest="server",
+        help="Launch web simulator",
         nargs='?',
-        type=str, 
+        type=str,
         action=WebSimulatorAction
     )
     parser.add_argument(

@@ -32,8 +32,8 @@ class Simulator:
         )
 
     def run(self):
-        set_diameters = np.linspace(1000, 10000, 10)
-        set_ua = np.linspace(40, 60, 10)
+        set_diameters = np.linspace(1000, 10000, 1000)
+        set_ua = np.linspace(40, 60, 1000)
         set_toffset = [0]
         set_T = [0]
         set_b_impact_parameter = np.linspace(0, 3, 1)
