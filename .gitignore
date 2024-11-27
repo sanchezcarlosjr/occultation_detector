@@ -58,3 +58,4 @@ datasets
 *.joblib
 wandb/
 nohup.out
+results
